@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.contrib import messages
 
 from .forms import LoginForm, RegistrationForm, BaseUserEditForm, AddUserEditForm
 from .models import Profile
@@ -54,6 +55,9 @@ def edit_profile(request):
         if base_form.is_valid() and add_form.is_valid():
             base_form.save()
             add_form.save()
+            messages.success(request, "Profile was changed successfully!")
+        else:
+            messages.error(request, "There was something wrong! Try again.")
 
     else:
         base_form = BaseUserEditForm(instance=request.user)
