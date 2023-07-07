@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os.path
 from pathlib import Path
 
-from .secret import SITE_KEY, MAIL_RU_POST, MAIL_RU_PASSWORD
+from .secret import SITE_KEY, MAIL_RU_POST, MAIL_RU_PASSWORD, GOOGLE_Client_ID, GOOGLE_Client_Secret
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,18 +26,21 @@ SECRET_KEY = SITE_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["mysite.com", "localhost", "127.0.0.1"]
 
 # Application definition
 
 INSTALLED_APPS = [
     'account.apps.AccountConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +138,12 @@ SITE_ID = 1
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "account.authentication.EmailAuthentication",
+    "social_core.backends.google.GoogleOAuth2",
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = GOOGLE_Client_ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = GOOGLE_Client_Secret

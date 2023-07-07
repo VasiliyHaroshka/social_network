@@ -23,4 +23,12 @@
         <p>If you don't have an account, you can register <a href="{% url 'registration' %}">here</a>.</p>
         <p><a href="{% url 'password_reset' %}">Forgot a password?</a></p>
     </div>
+
+    <div class="social">
+        <ul>
+            <li class="google">
+                <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+            </li>
+        </ul>
+    </div>
 {% endblock content %}

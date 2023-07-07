@@ -16,6 +16,7 @@ def show_dashboard(request):
 
 
 def registration(request):
+    """Обработчик регистрации пользователя"""
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
