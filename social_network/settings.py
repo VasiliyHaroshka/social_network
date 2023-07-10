@@ -12,7 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os.path
 from pathlib import Path
 
-from .secret import SITE_KEY, MAIL_RU_POST, MAIL_RU_PASSWORD, GOOGLE_Client_ID, GOOGLE_Client_Secret
+from .secret import SITE_KEY, \
+    MAIL_RU_POST, MAIL_RU_PASSWORD, \
+    GOOGLE_Client_ID, GOOGLE_Client_Secret, \
+    TWITTER_Client_ID, TWITTER_Client_Secret, \
+    FACEBOOK_Client_ID, FACEBOOK_Client_Secret
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -143,7 +147,16 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "account.authentication.EmailAuthentication",
     "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.twitter.TwitterOAuth",
+    "social_core.backends.facebook.FacebookOAuth2",
 ]
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = GOOGLE_Client_ID
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = GOOGLE_Client_Secret
+
+SOCIAL_AUTH_TWITTER_KEY = TWITTER_Client_ID
+SOCIAL_AUTH_TWITTER_SECRET = TWITTER_Client_Secret
+
+SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_Client_ID
+SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_Client_Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]
