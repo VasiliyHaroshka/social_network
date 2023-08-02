@@ -9,4 +9,3 @@ class ImageAdmin(admin.ModelAdmin):
     list_filter = ("title", "created", "user")
     search_fields = ("title", "description")
     prepopulated_fields = {"slug": ("title",)}
-

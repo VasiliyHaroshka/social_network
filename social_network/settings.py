@@ -29,8 +29,14 @@ SECRET_KEY = SITE_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ["mysite.com", "localhost", "127.0.0.1"]
+#
+# ALLOWED_HOSTS = [
+#     "mysite.com",
+#     "localhost",
+#     "127.0.0.1",
+#     "9b57-46-53-243-118.ngrok-free.app",
+# ]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -46,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'social_django',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -161,3 +168,5 @@ SOCIAL_AUTH_TWITTER_SECRET = TWITTER_Client_Secret
 SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_Client_ID
 SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_Client_Secret
 SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]
+
+THUMBNAIL_DEBUG = True
