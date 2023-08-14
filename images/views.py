@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -6,7 +7,12 @@ from django.views.decorators.http import require_POST
 
 from .forms import ImageDownloadForm
 from .models import Image
-from ..common.decorators import ajax_required
+
+
+# from ..common.decorators import ajax_required
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
 @login_required
@@ -27,6 +33,7 @@ def image_download(request):
 
     context = {
         "form": form,
+        "section": "images",
     }
     return render(request, "images/image/download.html", context)
 
@@ -36,12 +43,36 @@ def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
     context = {
         "image": image,
-        # "section": images,
+        "section": "images",
     }
     return render(request, "images/image/detail.html", context)
 
 
-@ajax_required
+def image_list(request):
+    """Обработчик постраничного отображения картинок
+    через стандартный запрос и через ajax-запрос"""
+    images = Image.objects.all()
+    paginator = Paginator(images, 5)
+    page = request.GET.get("page")
+    try:
+        images = paginator.page("page")
+    except PageNotAnInteger:
+        images = paginator.page(1)
+    except EmptyPage:
+        if is_ajax(request=request):
+            return HttpResponse("")
+        images = paginator.page(paginator.num_pages)
+
+    context = {
+        "images": images,
+        "section": "images",
+    }
+    if is_ajax(request=request):
+        return render(request, "images/image/list_ajax.html", context)
+    return render(request, "images/image/list.html", context)
+
+
+# @ajax_required
 @login_required
 @require_POST
 def image_like(request):

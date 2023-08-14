@@ -29,7 +29,8 @@ class Image(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("detail", args=[self.id, self.slug])
+        # return reverse('detail', kwargs={"id": self.id, "slug": self.slug})
+        return f"/images/{self.id}/{self.slug}"
 
     def save(self, *args, **kwargs):
         """Добавление слага по заголовку"""

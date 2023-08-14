@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 
 from .forms import LoginForm, RegistrationForm, BaseUserEditForm, AddUserEditForm
@@ -70,3 +71,23 @@ def edit_profile(request):
     }
 
     return render(request, "account/edit_profile.html", context)
+
+
+def user_list(request):
+    """Отображение списка всех пользователей"""
+    users = User.objects.filter(is_active=True)
+    context = {
+        "section": "people",
+        "users": users,
+    }
+    return render(request, "account/user/list.html", context)
+
+
+def user_detail(request, username):
+    """Отображение конкретного пользователя"""
+    user = get_object_or_404(User, username=username, is_active=True)
+    context = {
+        "section": "people",
+        "user": user,
+    }
+    return render(request, "account/user/detail.html", context)

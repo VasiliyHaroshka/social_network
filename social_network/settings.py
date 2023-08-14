@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os.path
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 from .secret import SITE_KEY, \
     MAIL_RU_POST, MAIL_RU_PASSWORD, \
     GOOGLE_Client_ID, GOOGLE_Client_Secret, \
@@ -170,3 +172,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_Client_Secret
 SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]
 
 THUMBNAIL_DEBUG = True
+
+ABSOLUTE_URL_OVERRIDES = {
+    "auth.user": lambda user: reverse_lazy("user_detail", args=[user.username])
+}
