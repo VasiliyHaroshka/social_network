@@ -9,8 +9,6 @@ from .forms import ImageDownloadForm
 from .models import Image
 
 
-# from ..common.decorators import ajax_required
-
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
@@ -72,7 +70,6 @@ def image_list(request):
     return render(request, "images/image/list.html", context)
 
 
-# @ajax_required
 @login_required
 @require_POST
 def image_like(request):
