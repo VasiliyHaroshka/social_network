@@ -44,7 +44,6 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'account.apps.AccountConfig',
-    'images.apps.ImagesConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,6 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'images.apps.ImagesConfig',
+    'actions.apps.ActionsConfig',
 
     'social_django',
     'sorl.thumbnail',
