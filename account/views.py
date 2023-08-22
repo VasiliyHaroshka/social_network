@@ -7,13 +7,21 @@ from django.views.decorators.http import require_POST
 
 from .forms import LoginForm, RegistrationForm, BaseUserEditForm, AddUserEditForm
 from .models import Profile, Contact
+from actions.urils import create_action
+from actions.models import Action
 
 
 @login_required
 def show_dashboard(request):
     """Отображает рабочий стол аккаунта"""
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list("id", flat=True)
+    if following_ids:
+        actions = actions.filter(user_id__in=following_ids)
+    actions = actions.select_related("user", "user__profile").prefetch_related("target")[:10]
     context = {
         "section": "dashboard",
+        "actions": actions,
     }
     return render(request, "account/dashboard.html", context)
 
@@ -27,6 +35,7 @@ def registration(request):
             new_user.set_password(form.cleaned_data["password1"])
             Profile.objects.create(user=new_user)
             new_user.save()
+            create_action(request.user, "craeted an account")
 
             context = {
                 "new_user": new_user,
@@ -106,6 +115,7 @@ def user_follow(request):
             user = User.objects.get(id=user_id)
             if action == "follow":
                 Contact.objects.get_or_create(subscribed_from_user=request.user, subscribed_to_user=user)
+                create_action(request.user, "following", user)
             else:
                 Contact.objects.filter(subscribed_from_user=request.user, subscribed_to_user=user).delete()
             return JsonResponse({"status": "ok"})

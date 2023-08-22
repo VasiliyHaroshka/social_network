@@ -7,6 +7,7 @@ from django.views.decorators.http import require_POST
 
 from .forms import ImageDownloadForm
 from .models import Image
+from actions.urils import create_action
 
 
 def is_ajax(request):
@@ -23,6 +24,7 @@ def image_download(request):
             new_picture = form.save(commit=False)
             new_picture.user = request.user
             new_picture.save()
+            create_action(request.user, "bookmarked image", new_item)
             messages.success(request, "Image download successfully!")
             return redirect(new_picture.get_absolute_url())
 
@@ -82,6 +84,7 @@ def image_like(request):
             image = Image.objects.get(id=image_id)
             if action == "like":
                 image.like.add(request.user)
+                create_action(request.user, "likes", image)
             else:
                 image.like.remove(request.user)
             return JsonResponse({"status": "ok"})
