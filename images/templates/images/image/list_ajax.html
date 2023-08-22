@@ -1,4 +1,4 @@
-{% load thumbnail %}
+{{% load thumbnail %}
 
 {% for image in images %}
   <div class="image">
@@ -11,8 +11,8 @@
     </a>
     <div class="info">
       <a href="{{ image.get_absolute_url }}" class="title">
-        <p><b>{{ image.title }}</b></a><br>{{ image.description }}</p>
-      <br>
+        {{ image.title }}
+      </a>
     </div>
   </div>
 {% endfor %}

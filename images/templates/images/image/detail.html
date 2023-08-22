@@ -17,7 +17,7 @@
       <div>
         <span class="count">
          <span class="total">{{ total_likes }}</span>
-         like{{ total_likes|pluralize }}
+         like{{total_likes|pluralize}}
         </span>
         <span class="count">
           {{ total_views }} view{{ total_views|pluralize }}
@@ -48,7 +48,7 @@
 {% block domready %}
   $('a.like').click(function(e){
     e.preventDefault();
-    $.post('{% url "like" %}',
+    $.post('{% url "images:like" %}',
       {
         id: $(this).data('id'),
         action: $(this).data('action')

@@ -24,13 +24,13 @@ class Image(models.Model):
         related_name="liked_images",
         verbose_name="лайк",
     )
+    count_likes = models.PositiveIntegerField(default=0, db_index=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        # return reverse('detail', kwargs={"id": self.id, "slug": self.slug})
-        return f"/images/{self.id}/{self.slug}"
+        return reverse('images:detail', kwargs={"id": self.id, "slug": self.slug})
 
     def save(self, *args, **kwargs):
         """Добавление слага по заголовку"""

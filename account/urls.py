@@ -3,6 +3,8 @@ from django.contrib.auth import views as auth_views
 
 from .views import show_dashboard, registration, edit_profile, user_list, user_detail, user_follow
 
+app_name = "account"
+
 urlpatterns = [
     path("", show_dashboard, name="dashboard"),
 
